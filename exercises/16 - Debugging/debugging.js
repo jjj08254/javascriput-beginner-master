@@ -5,14 +5,21 @@ const people = [
 ];
 
 people.forEach((person, index) => {
-  console.log(person.name);
+  console.groupCollapsed(`${person.name}`);
+  console.log(person.contry);
+  console.groupEnd(`${person.name}`);
 });
+
+console.table(people)
 
 // Console Methods
 
-// Callstack
+// Callstack, Stack trace
 
 // Grabbing Elements
+  // $: document.querySelector
+  // $$: document.querySelectorAll
+  // $0 / $1...: the last/second-last element that is clicked
 
 // Breakpoints
 
@@ -24,12 +31,21 @@ people.forEach((person, index) => {
 
 // Some Setup Code
 
+function doALotOfStuff(){
+  console.group('Doing some stuff');
+  console.log('Hey Im one');
+  console.warn('watch our');
+  console.error('hey!!');
+  console.groupEnd('Doing some stuff');
+}
+
 function doctorize(name) {
+  console.count(`running doctorize for ${name}`);
   return `Dr. ${name}`;
 }
 
 function greet(name) {
-  doesntExist();
+  doesntExist(); // cause an error
   return `Hello ${name}`;
 }
 
