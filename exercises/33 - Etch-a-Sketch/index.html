@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- prettier-ignore -->
 <html lang="en">
 
 <head>
@@ -13,10 +14,18 @@
     <canvas width="1600" height="1000" id="etch-a-sketch"></canvas>
     <div class="buttons">
       <button class="shake">Shake!</button>
+      <span class="control_panel">
+        <button data-key='ArrowUp' class="control c_u">Up!</button>
+        <div class="container">
+          <button data-key="ArrowLeft" class="control c_l">Left!</button>
+          <button data-key="ArrowRight" class="control c_r">Right!</button>
+        </div>
+        <button data-key="ArrowDown" class="control c_d">Down!</button>
+      </span>
     </div>
 
   </div>
-  <script src="./etch-a-sketch-FINISHED.js"></script>
+  <script src="./etch-a-sketch.js"></script>
 
   <style>
     body {
@@ -64,6 +73,21 @@
       60% {
         transform: translate3d(4px, 0, 0);
       }
+    }
+
+    .control_panel {
+      position: relative;
+      left: 39%;
+    }
+
+    .control_panel > .container {
+      position: relative;
+      left:6%;
+    }
+
+    .control_panel > .c_d {
+      position: relative;
+      left: 9%;
     }
   </style>
 </body>
