@@ -12,4 +12,35 @@ coolButton.addEventListener('click', hooray);
 
 const buyBottons = document.querySelectorAll('button.buy');
 
-buyBottons.forEach(buyBotton => buyBotton.addEventListener('click', hooray));
+function handleBuyButtonClick(e) {
+  console.log('You clicked a button!');
+
+  const button = e.target;
+  console.log(e.target);
+  console.log(e.currentTarget);
+  console.log(e.target === e.currentTarget);
+  // event.target is the thing actually got clicked
+  // event.currentTarget is thing that fired the event
+
+  // stop this event from bubbling up
+  // event.stopPropagation();
+}
+
+// prettier-ignore
+buyBottons.forEach(buyBotton => buyBotton.addEventListener('click', handleBuyButtonClick));
+// prettier-ignore
+window.addEventListener('click', e => {
+  console.log('you click the window');
+  console.log(e.target);
+  console.log(e.type);
+  console.log(e.bubbles);
+  // e.stopPropagation();
+}, {capture : true});
+// capture true: goes from top to down instead of bubbling up
+
+const photoEl = document.querySelector('.photo');
+
+photoEl.addEventListener('mousemove', e => {
+  console.log(e.currentTarget);
+  console.log(this);
+});
