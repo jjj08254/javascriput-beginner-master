@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- prettier-ignore -->
 <html lang="en">
 
 <head>
@@ -22,15 +23,13 @@
   * empty string
 
   <script>
-
     function slugify(sentence, lowercase) {
-      let slug = sentence.replace(/\s/g, '-');
+      const slug = sentence.replace(/\s/g, '-');
       if (lowercase) {
         return slug.toLowerCase();
       }
       return slug;
     }
-
   </script>
 </body>
 
