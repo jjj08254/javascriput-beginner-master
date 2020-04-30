@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Reduce!</title>
+    <link rel="stylesheet" href="../../base.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Reduce!</title>
-  <link rel="stylesheet" href="../../base.css">
-</head>
-
-<body>
-  <script>
-    // Grab all the text from a web page
-    // Count how many times each letter and number occurs
-    const text = `
+  <body>
+    <script>
+      // Grab all the text from a web page
+      // Count how many times each letter and number occurs
+      const text = `
       Skip to main content
 Select language
 Skip to search
@@ -556,40 +555,36 @@ TermsPrivacyCookies
 © 2005-2019 Mozilla and individual contributors.Content is available under these licenses.
     `;
 
-    function isValidChar(char) {
-      return char.match(/[a-z0-9]/i);
-    }
+      function isValidChar(char) {
+        return char.match(/[a-z0-9]/i);
+      }
 
-    // function lowercase(char) {
-    //   return char.toLowerCase();
-    // }
-    const lowercase = char => char.toLowerCase();
+      // function lowercase(char) {
+      //   return char.toLowerCase();
+      // }
+      const lowercase = (char) => char.toLowerCase();
 
-    function instanceCounter(counts, char) {
-      counts[char]
-        // if exists
-        ? counts[char] = counts[char] + 1
-        // if does not exist
-        : counts[char] = 1;
+      function instanceCounter(counts, char) {
+        counts[char]
+          ? // if exists
+            (counts[char] = counts[char] + 1)
+          : // if does not exist
+            (counts[char] = 1);
 
-      return counts;
-    }
+        return counts;
+      }
 
-    const result = text
-      .split('') // split each char into an item of an array
-      .filter(isValidChar)
-      .map(lowercase) // convert every letter to lowercase
-      .reduce(instanceCounter, {});
+      const result = text
+        .split("") // split each char into an item of an array
+        .filter(isValidChar)
+        .map(lowercase) // convert every letter to lowercase
+        .reduce(instanceCounter, {});
 
-    function sortByValue(a, b) {
-      return a[1] - b[1];
-    }
-    const sortedResult = Object
-      .entries(result)
-      .sort(sortByValue);
-    console.log(sortedResult);
-
-  </script>
-</body>
-
+      function sortByValue(a, b) {
+        return a[1] - b[1];
+      }
+      const sortedResult = Object.entries(result).sort(sortByValue);
+      console.log(sortedResult);
+    </script>
+  </body>
 </html>
