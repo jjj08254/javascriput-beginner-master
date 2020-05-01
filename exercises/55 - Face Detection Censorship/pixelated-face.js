@@ -38,16 +38,18 @@ async function populateVideo() {
 
 async function detect() {
   const faces = await faceDetector.detect(video);
+  faceCtx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
   // faces is an object
+
+  console.log(faces);
+  faces.forEach(face => drawFace(face));
+  faces.forEach(face => censor(face));
 
   // ask the browser when the next animation frame is
   // and tell it to run detect for us
   requestAnimationFrame(detect);
   // recursion is when a function calls itself,
   // it will run forever and ever and ever until something stops, until there's an exit condition
-
-  faces.forEach(drawFace);
-  faces.forEach(censor);
 }
 
 function drawFace(face) {
@@ -59,20 +61,21 @@ function drawFace(face) {
   ctx.strokeRect(left, top, width, height);
 }
 
-function censor({ boundingBox: face }) {
+function censor(face) {
+  const faceBoundingBox = face.boundingBox;
   faceCtx.imageSmoothingEnabled = false;
-  faceCtx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
+
   // draw the small face
   faceCtx.drawImage(
     // 5 source args
     video, // where does the source come from?
-    face.x, // where do we star the source pull from?
-    face.y, // x = left, y = top
-    face.width,
-    face.height,
+    faceBoundingBox.x, // where do we star the source pull from?
+    faceBoundingBox.y, // x = left, y = top
+    faceBoundingBox.width,
+    faceBoundingBox.height,
     // 4 draw args
-    face.x, // where should we start drawing the x and y
-    face.y,
+    faceBoundingBox.x, // where should we start drawing the x and y
+    faceBoundingBox.y,
     options.SIZE,
     options.SIZE
   );
@@ -80,17 +83,17 @@ function censor({ boundingBox: face }) {
   // take that face back out and draw it back at normal size
   // draw the small face back on, but scale up
 
-  const width = face.width * options.SCALE;
-  const height = face.height * options.SCALE;
+  const width = faceBoundingBox.width * options.SCALE;
+  const height = faceBoundingBox.height * options.SCALE;
   faceCtx.drawImage(
     faceCanvas, // source
-    face.x, // where should we start drawing the x and y
-    face.y,
+    faceBoundingBox.x, // where should we start drawing the x and y
+    faceBoundingBox.y,
     options.SIZE,
     options.SIZE,
     // Drawing args
-    face.x - (width - face.width) / 2,
-    face.y - (height - face.height) / 2,
+    faceBoundingBox.x - (width - faceBoundingBox.width) / 2,
+    faceBoundingBox.y - (height - faceBoundingBox.height) / 2,
     width,
     height
   );
