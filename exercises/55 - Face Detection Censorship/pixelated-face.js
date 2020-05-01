@@ -1,10 +1,22 @@
 const video = document.querySelector('.webcam');
 const canvas = document.querySelector('.video');
 const ctx = canvas.getContext('2d');
-ctx.strokeStyle = '#ffc600';
-ctx.lineWidth = 2;
 const faceCanvas = document.querySelector('.face');
-const faceCtx = canvas.getContext('2d');
+const faceCtx = faceCanvas.getContext('2d');
+const optionsInputs = document.querySelectorAll(
+  '.controls input[type="range"]'
+);
+
+const options = {
+  SIZE: 10,
+  SCALE: 1.35,
+};
+
+function handleOption(e) {
+  const { value, name } = e.currentTarget;
+  options[name] = parseFloat(value);
+}
+optionsInputs.forEach(input => input.addEventListener('input', handleOption));
 
 const faceDetector = new window.FaceDetector();
 
@@ -12,7 +24,7 @@ const faceDetector = new window.FaceDetector();
 
 async function populateVideo() {
   const stream = await navigator.mediaDevices.getUserMedia({
-    video: { width: 1280, height: 720 },
+    video: { width: window.width, height: window.height },
   });
   video.srcObject = stream;
   await video.play();
@@ -26,6 +38,7 @@ async function populateVideo() {
 
 async function detect() {
   const faces = await faceDetector.detect(video);
+  // faces is an object
 
   // ask the browser when the next animation frame is
   // and tell it to run detect for us
@@ -47,20 +60,40 @@ function drawFace(face) {
 }
 
 function censor({ boundingBox: face }) {
+  faceCtx.imageSmoothingEnabled = false;
+  faceCtx.clearRect(0, 0, faceCanvas.width, faceCanvas.height);
   // draw the small face
   faceCtx.drawImage(
-      // 5 source args
-      video, // where does the source come from?
-      face.x, // where do we star the source pull from?
-      face.y, // x = left, y = top
-      face.width,
-      face.height,
-      // 4 draw args
-      face.x, // where should we start drawing the x and y
-      face.y,
-      face.width,
-      face.height
+    // 5 source args
+    video, // where does the source come from?
+    face.x, // where do we star the source pull from?
+    face.y, // x = left, y = top
+    face.width,
+    face.height,
+    // 4 draw args
+    face.x, // where should we start drawing the x and y
+    face.y,
+    options.SIZE,
+    options.SIZE
+  );
+
   // take that face back out and draw it back at normal size
+  // draw the small face back on, but scale up
+
+  const width = face.width * options.SCALE;
+  const height = face.height * options.SCALE;
+  faceCtx.drawImage(
+    faceCanvas, // source
+    face.x, // where should we start drawing the x and y
+    face.y,
+    options.SIZE,
+    options.SIZE,
+    // Drawing args
+    face.x - (width - face.width) / 2,
+    face.y - (height - face.height) / 2,
+    width,
+    height
+  );
 }
 
 populateVideo().then(detect);

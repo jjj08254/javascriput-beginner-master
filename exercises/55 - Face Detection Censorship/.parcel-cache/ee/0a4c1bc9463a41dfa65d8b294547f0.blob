@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Censorship</title>
-    <link rel="stylesheet" href="../../base.css" />
-    <style>
+    <link rel="stylesheet" href="c45e69601b7eff36370ace0d29511b92">
+    <style data-parcel-key="4522fa316e5f04d6e3b7a730af6abe4d">
       * {
         box-sizing: border-box;
       }
@@ -15,7 +15,7 @@
 
       .wrap {
         position: relative;
-        max-height: 100vh;
+        min-height: 100vh;
         display: grid;
         justify-content: center;
         align-items: center;
@@ -33,24 +33,14 @@
   </head>
 
   <body>
-    <span
-      class="controls"
-      style="display: flex; justify-content: space-between;"
-    >
+    <span class="controls" style="display: flex; justify-content: space-between;">
       <label for="SCALE" style="display: flex; align-items: center;">
-        SCALE:&nbsp
-        <input
-          value="1.35"
-          type="range"
-          name="SCALE"
-          min="0.3"
-          max="3"
-          step="0.1"
-        />
+        SCALE:
+        <input value="1.35" type="range" name="SCALE" min="0.3" max="3" step="0.1">
       </label>
       <label for="SIZE" style="display: flex; align-items: center;">
-        SIZE:&nbsp
-        <input value="10" type="range" name="SIZE" min="1" max="100" step="1" />
+        SIZE:
+        <input value="10" type="range" name="SIZE" min="1" max="100" step="1">
       </label>
     </span>
     <div class="wrap">
@@ -58,6 +48,6 @@
       <canvas class="video"></canvas>
       <canvas class="face"></canvas>
     </div>
-    <script src="./pixelated-face.js"></script>
+    <script src="9014f7a481c99055d5e16c7de9991a5a"></script>
   </body>
 </html>
