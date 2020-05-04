@@ -7,8 +7,6 @@ async function destroyPopup(popup) {
   await wait(1000);
   // remove the popup entirely!
   popup.remove();
-  // popup.parentElement.removeChild(popup)
-
   /* eslint-disable no-param-reassign */
   popup = null;
   /* eslint-enable no-param-reassign */
@@ -24,23 +22,24 @@ function ask(options) {
       `<fieldset>
         <label>${options.title}</label>
         <input type="text" name="input"/>
-        <button type='submit'>Submit</button>
+        <button type="submit">Submit</button>
       </fieldset>
     `
     );
 
-    // check if they want a cancle button
+    // check if they want a cancel button
     if (options.cancel) {
       const skipButton = document.createElement('button');
-      skipButton.type = 'button'; // otherwise it will assume it's submit
+      skipButton.type = 'button';
       skipButton.textContent = 'Cancel';
+      console.log(popup.firstChild);
       popup.firstElementChild.appendChild(skipButton);
       // TODO: listen for a click on that cancel button
       skipButton.addEventListener(
         'click',
-        () => {
-          destroyPopup(popup);
+        function() {
           resolve(null);
+          destroyPopup(popup);
         },
         { once: true }
       );
@@ -48,38 +47,40 @@ function ask(options) {
     // listen for the submit event on the inputs
     popup.addEventListener(
       'submit',
-      e => {
+      function(e) {
         e.preventDefault();
-        resolve(e.currentTarget.input.value);
+        console.log('SUBMITTED');
+        resolve(e.target.input.value);
         // remove it from the DOM entirely
         destroyPopup(popup);
       },
       { once: true }
     );
-    // when someone does submit it, resolve the data that was in the input bos!
+    // when someone does submit it, resolve the data that was in the input box!
 
     // insert that popup into the DOM
     document.body.appendChild(popup);
     // put a very small timeout before we add the open class
+
     await wait(50);
     popup.classList.add('open');
   });
 }
 
+// select all button that have a question
 async function askQuestion(e) {
   const button = e.currentTarget;
-  const cancel = 'cancel' in button.dataset; // check the existance of prop;
-  // can also use button.hasAttribute('data-cancel')
+  const cancel = 'cancel' in button.dataset;
+
   const answer = await ask({
     title: button.dataset.question,
     cancel,
   });
+  console.log(answer);
 }
 
-// select all buttons that have a question
 const buttons = document.querySelectorAll('[data-question]');
 buttons.forEach(button => button.addEventListener('click', askQuestion));
-//
 
 const questions = [
   { title: 'What is your name?' },
@@ -92,17 +93,17 @@ async function asyncMap(array, callback) {
   const results = [];
   // loop over our array
   for (const item of array) {
-    const result = await callback(item);
-    results.push(result);
+    results.push(await callback(item));
   }
-  // when we are done the loop, return it?
+  // when we are done the loop, return it!
   return results;
 }
 
 async function go() {
-  const answers = await asyncMap(question, ask);
+  const answers = await asyncMap(questions, ask);
   console.log(answers);
 }
+
 go();
 
 // async function askMany() {
@@ -111,3 +112,5 @@ go();
 //     console.log(answer);
 //   }
 // }
+
+// askMany();
