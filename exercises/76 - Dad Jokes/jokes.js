@@ -1,5 +1,5 @@
 const jokeButton = document.querySelector('.getJoke');
-const jokeButtonSpan = document.querySelector('jokeText');
+const jokeButtonSpan = document.querySelector('.jokeText');
 const jokeHolder = document.querySelector('.joke p');
 const loader = document.querySelector('.loader');
 
