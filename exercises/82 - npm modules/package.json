@@ -1,10 +1,10 @@
 {
   "name": "npmmodules",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "start": "parcel index.html"
   },
   "author": "",
   "license": "ISC",
@@ -13,14 +13,13 @@
   },
   "dependencies": {
     "await-to-js": "^2.1.1",
-    "axios": "^0.19.0",
-    "date-fns": "^2.8.0",
+    "axios": "^0.19.2",
+    "date-fns": "^2.13.0",
     "faker": "^4.1.0",
     "lodash": "^4.17.15",
     "waait": "^1.0.5"
   },
   "browserslist": [
     "last 1 chrome versions"
-  ],
-  "description": ""
+  ]
 }

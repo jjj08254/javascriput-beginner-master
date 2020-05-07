@@ -1,4 +1,4 @@
-import { isValidColor } from './colors.js';
+import { isValidColor } from './colors';
 
 function logWords(results) {
   // console.log(results[results.length - 1][0].transcript);
@@ -9,15 +9,16 @@ export function handleResult({ results }) {
   const words = results[results.length - 1][0].transcript;
   // lowercase everything
   let color = words.toLowerCase();
-  // strip any space out
+  // strip any spaces out
   color = color.replace(/\s/g, '');
-  // check if it is a valid color
-  if (!isValidColor(color)) return;
-  // if it is, show the UI for that
+  // check if it is a valid colour
+  if (!isValidColor(color)) return; // thats all folks
+  // if it is, then show the UI for that
   const colorSpan = document.querySelector(`.${color}`);
   colorSpan.classList.add('got');
-  console.log('VALID COLOR');
+  console.log(colorSpan);
+  console.log('This is a valid color!');
   console.log(color);
-  // change background color
+  // change the background color
   document.body.style.backgroundColor = color;
 }
