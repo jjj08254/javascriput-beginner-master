@@ -1,4 +1,4 @@
-import { hslToRgb } from './utils.js';
+import { hslToRgb } from './utils';
 
 const WIDTH = 1500;
 const HEIGHT = 1500;
@@ -10,7 +10,7 @@ let analyzer;
 let bufferLength;
 
 function handleError(err) {
-  console.log('You are denied');
+  console.log('You must give access to your mic in order to proceed');
 }
 
 async function getAudio() {
@@ -22,9 +22,9 @@ async function getAudio() {
   const source = audioCtx.createMediaStreamSource(stream);
   source.connect(analyzer);
   // How much data should we collect
-  analyzer.fftSize = 2 ** 12;
+  analyzer.fftSize = 2 ** 8;
   // pull the data off the audio
-  // how many pieces of data are there?
+  // how many pieces of data are there?!?
   bufferLength = analyzer.frequencyBinCount;
   const timeData = new Uint8Array(bufferLength);
   const frequencyData = new Uint8Array(bufferLength);
@@ -35,10 +35,10 @@ async function getAudio() {
 function drawTimeData(timeData) {
   // inject the time data into our timeData array
   analyzer.getByteTimeDomainData(timeData);
-  // now that we have the data, let's turn it into sth visual
-  // 1. clean the canvas
+  // now that we have the data, lets turn it into something visual
+  // 1. Clear the canvas TODO
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  // 2. setup canvas drawing
+  // 2. setup some canvas drawing
   ctx.lineWidth = 10;
   ctx.strokeStyle = '#ffc600';
   ctx.beginPath();
@@ -72,12 +72,12 @@ function drawFrequency(frequencyData) {
     // 0 to 255
     const percent = amount / 255;
     const [h, s, l] = [360 / (percent * 360) - 0.5, 0.8, 0.5];
-    const barHeight = (HEIGHT * percent) / 1.2;
-    // Convert the color to HSL
+    const barHeight = HEIGHT * percent * 0.5;
+    // TODO: Convert the colour to HSL TODO
     const [r, g, b] = hslToRgb(h, s, l);
     ctx.fillStyle = `rgb(${r},${g},${b})`;
     ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
-    x += barWidth + 1.1;
+    x += barWidth + 2;
   });
 
   requestAnimationFrame(() => drawFrequency(frequencyData));

@@ -1,8 +1,11 @@
 {
-  "name": "npmmodules",
+  "name": "oscilloscope",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "browserslist": [
+    "last 1 chrome version"
+  ],
   "scripts": {
     "start": "parcel index.html"
   },
@@ -10,8 +13,5 @@
   "license": "ISC",
   "devDependencies": {
     "parcel-bundler": "^1.12.4"
-  },
-  "browserslist": [
-    "last 1 chrome version"
-  ]
+  }
 }
